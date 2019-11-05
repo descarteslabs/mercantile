@@ -23,6 +23,16 @@ func Test_Bounds(t *testing.T) {
 	}
 }
 
+// testing BboxToTile
+func Test_BboxToTile(t *testing.T) {
+	bbox := Extrema{W: -109.050039, S: 31.332244, E: -103.002199, N: 37.000141}
+	expected := TileID{X: 3, Y: 6, Z: 4}
+	actual := BboxToTile(bbox)
+	if !IsEqual(expected, actual) {
+		t.Errorf("Tile was incorrect, expected: %v, actual: %v.", expected, actual)
+	}
+}
+
 // testing tile
 func Test_Tile(t *testing.T) {
 	lat, long := 40.0, -90.0
