@@ -45,22 +45,22 @@ func Bounds(tileid TileID) Extrema {
 }
 
 // get the smallest tile to cover a bbox
-func BboxToTile(bbox []float64) m.TileID {
-	min := m.Tile(bbox[0], bbox[1], 32)
-	max := m.Tile(bbox[2], bbox[3], 32)
-	coords := m.Extrema{W: float64(min.X), S: float64(min.Y), E: float64(max.X), N: float64(max.Y)}
+func BboxToTile(bbox Extrema) TileID {
+	min := Tile(bbox.W, bbox.S, 32)
+	max := Tile(bbox.E, bbox.N, 32)
+	coords := Extrema{W: float64(min.X), S: float64(min.Y), E: float64(max.X), N: float64(max.Y)}
 
 	z := getBboxZoom(coords)
 	if z == 0 {
-		return m.Tile(0, 0, 0)
+		return Tile(0, 0, 0)
 	}
 	x := int(coords.W) >> (32 - z)
 	y := int(coords.S) >> (32 - z)
 
-	return m.TileID{int64(x), int64(y), uint64(z)}
+	return TileID{int64(x), int64(y), uint64(z)}
 }
 
-func getBboxZoom(bbox m.Extrema) int {
+func getBboxZoom(bbox Extrema) int {
 	var maxZoom = 28
 
 	for z := 0; z < maxZoom; z++ {
